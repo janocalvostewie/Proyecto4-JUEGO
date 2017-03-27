@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public float levelStartDelay = 2f;
     public float turnDelay = .1f;
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
     private GameObject levelImage;
     private bool doingSetup;
     private Text foodText;
-    private int level=0;
+    private int level = 1;
     private List<Enemy> enemies;
     private bool enemiesMoving;
 
@@ -29,39 +30,41 @@ public class GameManager : MonoBehaviour {
     mode)
     {
         //Add one to our level number.
-        level++;
+
         //Call InitGame to initialize our level.
         InitGame();
+        level++;
     }
     void OnEnable()
     {
         //Tell our ‘OnLevelFinishedLoading’ function to  
         //start listening for a scene change event as soon as
         //this script is enabled.
-SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
     void OnDisable()
     {
         //Tell our ‘OnLevelFinishedLoading’ function to stop
         //listening for a scene change event as soon as this
-//script is disabled.
-//Remember to always have an unsubscription for every
-//delegate you subscribe to!
-SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-}
+        //script is disabled.
+        //Remember to always have an unsubscription for every
+        //delegate you subscribe to!
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
 
 
-// Use this for initialization
-void Awake () {
+    // Use this for initialization
+    void Awake()
+    {
         if (instance == null)
             instance = this;
         else if (instance != null)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
         enemies = new List<Enemy>();
-        boardScript = GetComponent < BoardManager >();
-        InitGame();
-	}
+        boardScript = GetComponent<BoardManager>();
+        //InitGame();
+    }
 
     void InitGame()
     {
@@ -69,7 +72,7 @@ void Awake () {
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Dia " + level;
+        levelText.text = "Día " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
         enemies.Clear();
@@ -90,13 +93,14 @@ void Awake () {
         enabled = false;
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
         if (playersTurn || enemiesMoving || doingSetup)
             return;
 
         StartCoroutine(MoveEnemies());
-	}
+    }
 
     public void AddEnemyToList(Enemy script)
     {
@@ -117,6 +121,6 @@ void Awake () {
         }
         enemiesMoving = false;
         playersTurn = true;
-        
+
     }
 }
