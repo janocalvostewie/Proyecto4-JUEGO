@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MovingObject {
 
@@ -9,6 +11,7 @@ public class Player : MovingObject {
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
     public float restartLevelDelay = 1f;
+    public Text foodText;
 
     private Animator animator;
     private int food;
@@ -17,6 +20,8 @@ public class Player : MovingObject {
     protected override void Start() {
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
+        //foodText = GameObject.Find("FoodText").GetComponent<Text>();
+        foodText.text= "Comida " + food;
         base.Start();
     }
 
@@ -28,6 +33,7 @@ public class Player : MovingObject {
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
         food--;
+        foodText.text = "Comida " + food;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         CheckIfGameOver();
@@ -64,8 +70,8 @@ public class Player : MovingObject {
 
     private void Restart()
     {
-        Application.LoadLevel(Application.loadedLevel);
-       
+        SceneManager.LoadScene(0);
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -78,11 +84,13 @@ public class Player : MovingObject {
         if (other.tag == "Food")
         {
             food += pointsPerFood;
+            foodText.text = "Ganados "+pointsPerFood+" Comida " + food;
             other.gameObject.SetActive(false);
         }
         if (other.tag == "Soda")
         {
-            food += pointsPerFood;
+            food += pointsPerSoda;
+            foodText.text = "Ganados "+pointsPerSoda+" Comida " + food;
             other.gameObject.SetActive(false);
         }
 
@@ -92,6 +100,7 @@ public class Player : MovingObject {
     {
         animator.SetTrigger("playerHit");
         food -= loss;
+        foodText.text = "Perdidos " + loss + " Comida " + food;
         CheckIfGameOver();
 
     }
