@@ -85,7 +85,7 @@ void Awake () {
     public void GameOver()
     {
 
-        levelText.text = "Tras " + level + "día\n te has muerto de hambre";
+        levelText.text = "Tras " + level + " día\n te has muerto de hambre";
         levelImage.SetActive(true);
         enabled = false;
     }
