@@ -29,26 +29,18 @@ public class GameManager : MonoBehaviour
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode
     mode)
     {
-        //Add one to our level number.
-
-        //Call InitGame to initialize our level.
+        
         InitGame();
         level++;
     }
     void OnEnable()
     {
-        //Tell our ‘OnLevelFinishedLoading’ function to  
-        //start listening for a scene change event as soon as
-        //this script is enabled.
+        
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
     void OnDisable()
     {
-        //Tell our ‘OnLevelFinishedLoading’ function to stop
-        //listening for a scene change event as soon as this
-        //script is disabled.
-        //Remember to always have an unsubscription for every
-        //delegate you subscribe to!
+       
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
@@ -68,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-
+        boardScript.SetupScene(level);
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
@@ -76,7 +68,7 @@ public class GameManager : MonoBehaviour
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
         enemies.Clear();
-        boardScript.SetupScene(level);
+        
     }
 
     public void HideLevelImage()
@@ -109,18 +101,26 @@ public class GameManager : MonoBehaviour
 
     IEnumerator MoveEnemies()
     {
+        playersTurn = false;
         enemiesMoving = true;
         yield return new WaitForSeconds(turnDelay);
         if (enemies.Count == 0)
             yield return new WaitForSeconds(turnDelay);
 
-        for (int i = 0; 0 < enemies.Count; i++)
+        else
         {
-            enemies[i].MoveEnemy();
-            yield return new WaitForSeconds(enemies[i].moveTime);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+               
+                enemies[i].MoveEnemy();
+                yield return new WaitForSeconds(enemies[i].moveTime);
+            }
+
+            playersTurn = true;
+            enemiesMoving = false;
         }
-        enemiesMoving = false;
         playersTurn = true;
+        enemiesMoving = false;
 
     }
 }

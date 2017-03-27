@@ -240,7 +240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Day 1
+  m_Text: "D\xEDa 1"
 --- !u!222 &300658185
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -442,7 +442,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1801980340385964, guid: 78e19dfd868ce7847bebac61c7194e5e,
     type: 2}
-  soundManager: {fileID: 0}
 --- !u!1 &552793472
 GameObject:
   m_ObjectHideFlags: 0
